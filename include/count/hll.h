@@ -19,6 +19,7 @@
 #include <assert.h>
 #include <memory>
 #include <stdint.h>
+#include <algorithm>
 #include <vector>
 #include "count/hll_limits.h"
 #include "count/utility.h"
@@ -102,9 +103,7 @@ inline void HLL::Update(const uint64_t hash) {
   assert(count <= 64);
 
   // Update the appropriate register if the new count is greater than current.
-  if (count > registers_[index]) {
-    registers_[index] = count;
-  }
+  registers_[index] = std::max(registers_[index], count);
 }
 
 }  // namespace libcount
