@@ -1,6 +1,7 @@
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/..)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
 
+# Main libcount library
 add_library(count
         ${CMAKE_CURRENT_SOURCE_DIR}/c.cc
         ${CMAKE_CURRENT_SOURCE_DIR}/empirical_data.cc
@@ -9,3 +10,7 @@ add_library(count
 
 set_target_properties(count PROPERTIES OUTPUT_NAME "count")
 target_include_directories(count PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+# Empiral data test
+add_executable(empirical_data_test ${CMAKE_CURRENT_SOURCE_DIR}/empirical_data_test.cc)
+target_link_libraries(empirical_data_test LINK_PUBLIC count)
