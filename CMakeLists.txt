@@ -7,6 +7,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 option(LIBCOUNT_BUILD_EXAMPLES "Build examples" OFF)
+option(LIBCOUNT_BUILD_CERTIFY "Build libcount certification program" OFF)
 option(LIBCOUNT_BUILD_GENERATOR "Build data generator" OFF)
 
 # Generic CXX flags
@@ -25,8 +26,6 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -O0 -fno-omit-frame-pointer -fno-optimize-sibling-calls -fsanitize=address -fsanitize-address-use-after-scope")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address -fsanitize-address-use-after-scope")
     message(STATUS "AddressSanitizer (ASAN) enabled")
-elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "FASTDEBUG")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -O1 -fno-omit-frame-pointer -fno-optimize-sibling-calls")
 elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "RELEASE")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
 elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "RELWITHDEBINFO")
@@ -39,7 +38,7 @@ endif ()
 add_subdirectory(count)
 
 # Built examples if instructed
-if (${LIBCOUNT_BUILD_EXAMPLES})
+if (${LIBCOUNT_BUILD_EXAMPLES} OR ${LIBCOUNT_BUILD_CERTIFY})
     add_subdirectory(examples)
 endif()
 
