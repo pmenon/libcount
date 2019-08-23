@@ -6,6 +6,9 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
     message(FATAL_ERROR "DO NOT BUILD in-tree.")
 endif()
 
+option(LIBCOUNT_BUILD_EXAMPLES "Build examples" OFF)
+option(LIBCOUNT_BUILD_GENERATOR "Build data generator" OFF)
+
 # Generic CXX flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Werror -march=native")
 
@@ -34,10 +37,13 @@ endif ()
 
 # Add libraries
 add_subdirectory(count)
-add_subdirectory(examples)
-add_subdirectory(util)
 
-# Info message
-message(STATUS "Compiler          :   ${CMAKE_CXX_COMPILER} (${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION})")
-message(STATUS "Build type        :   ${CMAKE_BUILD_TYPE}")
-message(STATUS "CXX flags         :   ${CMAKE_CXX_FLAGS}")
+# Built examples if instructed
+if (${LIBCOUNT_BUILD_EXAMPLES})
+    add_subdirectory(examples)
+endif()
+
+# Build data generator if instructed
+if (${LIBCOUNT_BUILD_GENERATOR})
+    add_subdirectory(util)
+endif()
